@@ -109,7 +109,6 @@
    "read_only": 1
   },
   {
-   "default": "5",
    "depends_on": "eval:parent.doctype == 'BOM'",
    "fieldname": "base_operating_cost",
    "fieldtype": "Currency",
