@@ -239,7 +239,8 @@ erpnext.buying.PurchaseOrderController = erpnext.buying.BuyingController.extend(
 				docstatus: ["!=", 2],
 				supplier: this.frm.doc.supplier
 			},
-			get_query_method: "erpnext.stock.doctype.material_request.material_request.get_material_requests_based_on_supplier"
+			get_query_method: "erpnext.stock.doctype.material_request.material_request.get_material_requests_based_on_supplier",
+			after_cscript_method: 'apply_price_list'
 		});
 	},
 
