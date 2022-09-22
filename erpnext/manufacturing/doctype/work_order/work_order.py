@@ -1449,24 +1449,24 @@ def get_reserved_qty_for_production(item_code: str, warehouse: str) -> float:
 	wo_item = frappe.qb.DocType("Work Order Item")
 
 	return (
-		       frappe.qb.from_(wo)
-			       .from_(wo_item)
-			       .select(
-			       Sum(
-				       Case()
-					       .when(wo.skip_transfer == 0, wo_item.required_qty - wo_item.transferred_qty)
-					       .else_(wo_item.required_qty - wo_item.consumed_qty)
-			       )
-		       )
-			       .where(
-			       (wo_item.item_code == item_code)
-			       & (wo_item.parent == wo.name)
-			       & (wo.docstatus == 1)
-			       & (wo_item.source_warehouse == warehouse)
-			       & (wo.status.notin(["Stopped", "Completed", "Closed"]))
-			       & (
-				       (wo_item.required_qty > wo_item.transferred_qty)
-				       | (wo_item.required_qty > wo_item.consumed_qty)
-			       )
-		       )
-	       ).run()[0][0] or 0.0
+		frappe.qb.from_(wo)
+		.from_(wo_item)
+		.select(
+			Sum(
+				Case()
+				.when(wo.skip_transfer == 0, wo_item.required_qty - wo_item.transferred_qty)
+				.else_(wo_item.required_qty - wo_item.consumed_qty)
+			)
+		)
+		.where(
+			(wo_item.item_code == item_code)
+			& (wo_item.parent == wo.name)
+			& (wo.docstatus == 1)
+			& (wo_item.source_warehouse == warehouse)
+			& (wo.status.notin(["Stopped", "Completed", "Closed"]))
+			& (
+				(wo_item.required_qty > wo_item.transferred_qty)
+				| (wo_item.required_qty > wo_item.consumed_qty)
+			)
+		)
+	).run()[0][0] or 0.0
