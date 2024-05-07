@@ -154,7 +154,11 @@ class MaterialRequest(BuyingController):
 	def update_status(self, status):
 		self.check_modified_date()
 		self.status_can_change(status)
+		print('toto')
+		print(status)
 		self.set_status(update=True, status=status)
+		if status == 'Submitted':
+			self.add_comment("Label", _(status))
 		self.update_requested_qty()
 
 	def status_can_change(self, status):
